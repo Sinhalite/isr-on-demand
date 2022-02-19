@@ -12,14 +12,19 @@ const intervalSecond = 60 * 60
 const formatStyle = "MM/DD HH:mm:ss"
 
 export default function Home({ createdAt, nextCreatedAt }) {
+  const sleep = waitTime => new Promise(
+    resolve => setTimeout(resolve, waitTime)
+  )
+
   const revalidate = async () => {
     await fetch('api/revalidate')
-      .then(response => {
+      .then(async response => {
         if (!response.ok) {
           console.error('Server error');
           return
         }
         console.log('Revalidate!!')
+        await sleep(2000);
         location.reload()
       })
       .catch(error => {
