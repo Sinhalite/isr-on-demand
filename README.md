@@ -1,2 +1,3 @@
-# ISR Sample
-Next.jsのISRの挙動を確認するためのサンプルプログラムです。
+# On-demand ISR Sample
+
+Next.js の On-demand ISR の挙動を確認するためのサンプルプログラムです。
