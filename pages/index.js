@@ -2,15 +2,31 @@ import Head from 'next/head'
 import dayjs from 'dayjs'
 import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
+import Link from 'next/link'
 
 dayjs.extend(timezone)
 dayjs.extend(utc)
 dayjs.tz.setDefault("Asia/Tokyo")
 
-const intervalSecond = 20
+const intervalSecond = 60 * 60
 const formatStyle = "MM/DD HH:mm:ss"
 
 export default function Home({ createdAt, nextCreatedAt }) {
+  const revalidate = async () => {
+    await fetch('api/revalidate')
+      .then(response => {
+        if (!response.ok) {
+          console.error('Server error');
+          return
+        }
+        console.log('Revalidate!!')
+        location.reload()
+      })
+      .catch(error => {
+        console.error('Faild to connect', error);
+      });
+  }
+
   return (
     <div className="container">
       <Head>
@@ -20,6 +36,7 @@ export default function Home({ createdAt, nextCreatedAt }) {
       </Head>
 
       <main>
+        <button onClick={revalidate} className="revalidateButton">Revalidate</button>
         <h2>Interval</h2>
         <h1>{intervalSecond}s</h1>
         <br />
